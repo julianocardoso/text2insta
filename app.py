@@ -13,7 +13,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.title("✨ Text2Insta - Posts Instagram + Resumo")
-st.caption("Feito pelo melhor do mundo • Grok 4.20")
+st.caption("Feito pelo melhor do mundo • Grok 4.20 • Agora com OpenAI ultra-otimizado")
 
 # === LIMITE GRÁTIS POR SESSÃO (simples pra você) ===
 if "uses" not in st.session_state:
@@ -37,25 +37,35 @@ if st.button("🚀 GERAR 3 POSTS + RESUMO", type="primary", use_container_width=
     if len(texto) < 100:
         st.error("Texto muito curto!")
     else:
-        with st.spinner("Grok-4 está criando magia... (8 segundos)"):
+        with st.spinner("OpenAI criando magia viral... (5 segundos)"):
             client = OpenAI(
-                api_key=st.secrets["xai"]["key"],
-                base_url="https://api.x.ai/v1"
+                api_key=st.secrets["openai"]["key"]
             )
             
             response = client.chat.completions.create(
-                model="grok-4",
+                model="gpt-4o-mini",
                 messages=[{
+                    "role": "system",
+                    "content": """Você é o melhor copywriter de Instagram do mundo. Responda APENAS com JSON válido:
+{
+  "resumo": "Resumo profissional em 2-3 frases",
+  "posts": [
+    {"caption": "Caption completa com emojis, CTA forte e hashtags virais"},
+    {"caption": "..."},
+    {"caption": "..."}
+  ]
+}
+Exatamente 3 posts. Estilo autêntico, otimizado para engajamento máximo."""
+                },
+                {
                     "role": "user",
-                    "content": f"""Crie exatamente 3 posts Instagram virais + 1 resumo profissional a partir deste texto:
-Texto: {texto}
+                    "content": f"""Texto original: {texto}
 Nicho: {nicho}
 Tom: {tom}
-
-Responda APENAS com JSON:
-{{"resumo": "...", "posts": [{"caption": "..."}, ...]}}"""
+Gere 3 posts + 1 resumo."""
                 }],
-                temperature=0.8,
+                temperature=0.85,
+                max_tokens=1200,
                 response_format={"type": "json_object"}
             )
             
