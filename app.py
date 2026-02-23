@@ -40,7 +40,7 @@ if st.button("🚀 GERAR 3 POSTS + RESUMO", type="primary", use_container_width=
         with st.spinner("Hugging Face criando magia viral... (5-10 segundos)"):
             api_key = st.secrets["huggingface"]["key"]
             headers = {"Authorization": f"Bearer {api_key}"}
-            API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-Nemo-Instruct-2407"
+            API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3"
             payload = {
                 "inputs": f"""Você é o melhor copywriter de Instagram do mundo. Responda APENAS com JSON válido:
 {{
